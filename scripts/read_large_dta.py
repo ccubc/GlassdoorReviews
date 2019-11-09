@@ -136,7 +136,6 @@ for df in pd.read_stata(data_path, chunksize = 100000, columns = review_columns,
         df_sub = pd.concat([df_sub, df_subsample])
     print('sub sample has {} rows in total'.format(df_sub.shape[0]))
     print('iteration {} completed in {} seconds'.format(chunk_count,(dt.datetime.now() - iter_start).seconds))
-df_sub.drop_duplicates(subset = 'company_name', inplace = True)
 file = open('/Users/chengchen/glassdoor/data/processed/review_subset.pkl', 'wb')
 pickle.dump(df_sub, file)
 file.close()
