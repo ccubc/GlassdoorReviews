@@ -26,10 +26,25 @@ def create_dic_and_matrix(reviews):
     doc_term_matrix = [dictionary.doc2bow(rev) for rev in reviews]
     return dictionary, doc_term_matrix
 
-def LDA_with_varying_ntopics(ntopics_list, reviews, file_name):
+#%% save the dictionary and matrix
+dictionary, doc_term_matrix = create_dic_and_matrix(review_pros)
+file = open('/Users/chengchen/glassdoor/data/processed/review_pros_dic_mat.pkl', 'wb')
+pickle.dump([dictionary, doc_term_matrix], file)
+file.close()
+dictionary, doc_term_matrix = create_dic_and_matrix(review_cons)
+file = open('/Users/chengchen/glassdoor/data/processed/review_cons_dic_mat.pkl', 'wb')
+pickle.dump([dictionary, doc_term_matrix], file)
+file.close()
+
+
+#%%
+
+def LDA_with_varying_ntopics(ntopics_list, reviews, file_name, dic_mat_file):
     """ train LDA with a range of n_topics(number of topics) and save the coherence score"""
     processed_info = copy.deepcopy(reviews)
-    dictionary, doc_term_matrix = create_dic_and_matrix(reviews)
+    file = open(dic_mat_file, 'rb')
+    [dictionary, doc_term_matrix] = pickle.load(file)
+    file.close()
     scores = []
     myseed = 0
     for ntopics in ntopics_list:
@@ -45,9 +60,11 @@ def LDA_with_varying_ntopics(ntopics_list, reviews, file_name):
 
 ntopics_list = np.arange(5,30)
 file_name = '/Users/chengchen/glassdoor/data/processed/scores_coherence_cv_5_30.pkl'
-LDA_with_varying_ntopics(ntopics_list, review_pros, file_name)
+dic_mat_file = '/Users/chengchen/glassdoor/data/processed/review_pros_dic_mat.pkl'
+LDA_with_varying_ntopics(ntopics_list, review_pros, file_name, dic_mat_file)
 file_name2 = '/Users/chengchen/glassdoor/data/processed/scores_coherence_cv_cons_5_30.pkl'
-LDA_with_varying_ntopics(ntopics_list, review_cons, file_name2)
+dic_mat_file2 = '/Users/chengchen/glassdoor/data/processed/review_cons_dic_mat.pkl'
+LDA_with_varying_ntopics(ntopics_list, review_cons, file_name2, dic_mat_file2)
 
 # plot the coherence scores against the number of topics
 def plot_CV_ntopics(ntopic_list, score_file_name, plot_file_name):
@@ -61,3 +78,28 @@ def plot_CV_ntopics(ntopic_list, score_file_name, plot_file_name):
     plt.savefig(plot_file_name)
 plot_CV_ntopics(ntopics_list, file_name, '/Users/chengchen/glassdoor/graphs/review_pro_coherence_score_5_30.png')
 plot_CV_ntopics(ntopics_list, file_name2, '/Users/chengchen/glassdoor/graphs/review_cons_coherence_score_5_30.png')
+
+# the optimal number of topics for review-pros: 17, then 9
+# the optimal number of topics for review-cons: 8
+
+#%% train the LDA models and save the model
+def train_LDA(n_topics, LDA_file, dic_mat_file):
+    file = open(dic_mat_file, 'rb')
+    [dictionary, doc_term_matrix] = pickle.load(file)
+    file.close()
+    lda_model =  gensim.models.LdaMulticore(doc_term_matrix, num_topics = n_topics, id2word = dictionary, 
+                                random_state=0, passes = 10, workers = 2) #iterations = 300
+    file = open(LDA_file,'wb')
+    pickle.dump(lda_model, file)
+    file.close()
+LDA_file = '/Users/chengchen/glassdoor/model/lda_17_pro.pkl'
+train_LDA(17, LDA_file, dic_mat_file)
+    
+LDA_file = '/Users/chengchen/glassdoor/model/lda_9_pro.pkl'
+train_LDA(9, LDA_file, dic_mat_file)
+
+LDA_file = '/Users/chengchen/glassdoor/model/lda_8_cons.pkl'
+train_LDA(8, LDA_file, dic_mat_file2)
+
+
+
