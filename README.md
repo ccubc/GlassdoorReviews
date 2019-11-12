@@ -33,7 +33,7 @@ The topics are then hand labeled according to the associated word frequency. <br
 * Pressure from Sales and Customer Service
 * Slow to Adapt to Changes
 ### Compare topic distribution across various companies (in progress)
-Screenshots from a working-in-progress Tableau dashboard:<br><br>
+Screenshots from a work-in-progress Tableau dashboard:<br><br>
 ![png](graphs/topic_pros.png) <br><br>
 ![png](graphs/topic_cons.png) <br><br>
 
