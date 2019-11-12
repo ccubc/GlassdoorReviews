@@ -110,3 +110,22 @@ df_company = pickle.load(file)
 file.close()
 df_all = pd.merge(df_review_topics, df_company, left_on = 'company_name', right_on = 'company_name', how = 'left')
 df_all.to_csv('/Users/chengchen/glassdoor/data/processed/processed_reviews.csv', index = False)
+
+#%% more processing on the reviews
+df_all = pd.read_csv('/Users/chengchen/glassdoor/data/processed/processed_reviews.csv')
+df_industry = pd.DataFrame()
+for topic_pro in topics_pros:
+    topic_name = 'pros ' + topic_pro
+    df_all[topic_name] = (df_all[topic_pro]>0.2)*1
+    industry_topic_name = 'industry avg' + topic_name
+    df_industry[industry_topic_name] = df_all.groupby(['industry'])[topic_name].mean()
+#%%
+for topic_con in topics_cons:
+    topic_name = 'cons ' + topic_con
+    df_all[topic_name] = (df_all[topic_con]>0.2)*1
+    industry_topic_name = 'indsutry avg' + topic_name
+    df_industry[industry_topic_name] = df_all.groupby(['industry'])[topic_name].mean()
+#%%
+df_all = pd.merge(df_all, df_industry, left_on = 'industry', right_index = True, how = 'left')
+df_all.to_csv('/Users/chengchen/glassdoor/data/processed/processed_reviews2.csv', index = False)
+
