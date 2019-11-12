@@ -11,3 +11,30 @@
 The screenshot below exhibits a visualization of a topic found by the LDA model of all the employee reviews about cons.<br><br>
 ![png](graphs/pyLDAvis_example1.png)
 <br><br>
+### Topic labeling
+The topics are then hand labeled according to the associated word frequency. <br> 
+#### Topics of reviews on pros: 
+* Salary and Benefits
+* Flexible Schedule
+* Career Opportunity
+* Work-Life Balance
+* Supportive Management
+* Culture and Value
+* Food and Perks
+* Friendly and Smart Colleagues
+* Friendly to Juniors
+#### Topics for reviews on cons:
+* Low Pay and High Turnover Rate
+* Long Working Hours
+* Limited Career Opportunity
+* Demanding Work
+* Bad Manager
+* Poor Communication
+* Pressure from Sales and Customer Service
+* Slow to Adapt to Changes
+### Compare topic distribution across various companies (in progress)
+Screenshots from a working-in-progress Tableau dashboard:<br><br>
+![png](graphs/topic_pros.png) <br><br>
+![png](graphs/topic_cons.png) <br><br>
+
+
