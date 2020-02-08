@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from nltk.corpus import stopwords
 import pickle
-
+import string
 
 #%% load subsample of company reviews (10% randomly selected sample of reviews in year 2016)
 
@@ -30,9 +30,9 @@ df = df.drop_duplicates(subset =['review_pros', 'review_cons'])
 # 163720 comments on pros and cons respectively
 
 #%% Data Preprocessing
-nltk.download('stopwords') # run this one time
+#nltk.download('stopwords') # run this one time
 def freq_words(x, terms = 30):
-    """draw bar plot of frequent words"""
+    """draw bar plot of top 30 frequent words"""
     all_words = ' '.join([str(text) for text in x])
     all_words = all_words.split()
     fdist = FreqDist(all_words)
@@ -47,7 +47,17 @@ def freq_words(x, terms = 30):
 
 # remove stop words
 stop_words = stopwords.words('english')
+# add punctuations to stop words
+for i in string.punctuation:
+    stop_words.append(str(i))
+    
 def remove_stopwords(rev):
+    """ This function does the following transformation on input text:
+        (1) lower-casing all the text
+        (2) remove english stop words
+        (3) remove punctuations
+    """
+    rev = [r.lower() for r in rev]
     rev_new = " ".join([i for i in rev if i not in stop_words])
     return rev_new
 # remove short words (length < 3)
