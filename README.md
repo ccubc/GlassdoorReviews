@@ -1,4 +1,4 @@
-# Glassdoor Review (ongoing project)
+# Glassdoor Review (an ongoing project)
 
 ### Scripts and notebooks
 * script: read_large_dta.py: reads the original 16GB STATA data file, and randomly select a representative subsample to conduct text analysis
