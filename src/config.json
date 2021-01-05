@@ -1,0 +1,18 @@
+{
+	"raw_data": "/Users/chengchen/glassdoor/data/glassdoor.dta",
+	"data_path": "../data/",
+	"date_col": "review_date",
+	"company_name": "company_name",
+	
+	"num_cols":["number_of_reviews", "company_overal_rating",
+       "company_culture_and_value_rating", "company_work_life_balance_rating",
+       "company_senior_management_rating", "company_comp_and_benefits_rating",
+       "compary_career_opportunities_rat", "company_recommend_this_company_p",
+       "company_approves_of_ceo_percent", "company_positive_business_outloo"],
+
+	"cat_cols":["industry", "number_of_employees", "reviewer_location",
+		"reviewer_form_of_employment", "reviewer_length_of_employment", 
+		"recommend_this_company", "review_business_outlook"],
+
+	"txt_cols":["review_title","review_pros", "review_cons"]
+}
